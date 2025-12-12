@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ useRouterLinks = true }) => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Events', path: '/events' },
-    { name: 'Schedule', path: '/schedule' },
+    { name: 'Schedule', path: '/clock' },
     { name: 'Members', path: '/members' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },

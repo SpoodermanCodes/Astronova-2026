@@ -119,4 +119,41 @@ code {
   .gradient-accent {
     background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
   }
+
+  /* Gear rotation utilities */
+  .animate-gear-slow {
+    animation: gear-rotate 12s linear infinite;
+    transform-origin: center;
+    will-change: transform;
+  }
+  .animate-gear-medium {
+    animation: gear-rotate 6s linear infinite;
+    transform-origin: center;
+    will-change: transform;
+  }
+  .animate-gear-fast {
+    animation: gear-rotate 3s linear infinite;
+    transform-origin: center;
+    will-change: transform;
+  }
+  .animate-gear-reverse-slow {
+    animation: gear-rotate 12s linear infinite reverse;
+    transform-origin: center;
+    will-change: transform;
+  }
+  .animate-gear-reverse-medium {
+    animation: gear-rotate 6s linear infinite reverse;
+    transform-origin: center;
+    will-change: transform;
+  }
+  .animate-gear-reverse-fast {
+    animation: gear-rotate 3s linear infinite reverse;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  @keyframes gear-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 }

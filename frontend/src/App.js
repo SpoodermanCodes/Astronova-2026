@@ -7,7 +7,8 @@ import Header from "./components/pageheader.tsx";
 import Footer from './components/footer.tsx';    
 import Contact from "./components/Contact.tsx";
 import EventPage from './components/EventPage/EventPage.tsx';
-import Registration from './components/Registration/Registration';
+import WatchClock from './components/Clock/WatchClock.tsx';
+import { CircuitTimeline } from './components/CircuitTimeline/CircuitTimeline.tsx';
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -16,7 +17,7 @@ function App() {
   useEffect(() => {
     const path = window.location.pathname;
     // If user is directly accessing /contact, skip intro
-    if (path === '/contact' || path === '/registration' || path === '/events') {
+    if (path === '/contact' || path === '/registration' || path === '/events' || path === '/CircuitTimeline' || path === '/clock') {
       setShowIntro(false);
     }
   }, []);
@@ -25,20 +26,20 @@ function App() {
     setShowIntro(false);
   };
 
-  // Show Intro first (unless user came directly to contact page)
-  if (showIntro) {
-    return <Intro onComplete={handleIntroComplete} />;
-  }
-
+  // Keep Router mounted always so navigation works while Intro is visible
   return (
     <Router>
       <div className="App">
+        {/* Show Intro overlay when needed */}
+        {showIntro && <Intro onComplete={handleIntroComplete} />}
+
         <Header useRouterLinks={true} />
         
         <Routes>
           <Route path="/" element={<EventPage />} />
           <Route path="/events" element={<EventPage />} />
-          <Route path="/registration" element={<Registration />} />
+          <Route path="/CircuitTimeline" element={<CircuitTimeline />} />
+          <Route path="/clock" element={<WatchClock />} />
           <Route path="/contact" element={<Contact />} /> 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

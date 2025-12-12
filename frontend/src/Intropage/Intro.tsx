@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from "../components/pageheader.tsx";
 import Footer from "../components/footer.tsx";
-import { BrowserRouter } from 'react-router-dom'; // Add this import
 
 
 interface TimeLeft {
@@ -16,6 +16,7 @@ interface IntroProps {
 }
 
 const Intro: React.FC<IntroProps> = ({ onComplete }) => {
+  const navigate = useNavigate();
   const [showContent, setShowContent] = useState(false);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
@@ -59,7 +60,7 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   ];
 
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="fixed inset-0 z-50 min-h-screen flex flex-col">
       <div className="flex-grow relative w-full overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100">
         {/* 🔶 HEADER WITH useRouterLinks={false} */}
 <Header useRouterLinks={false} />
@@ -140,6 +141,20 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Schedule Button */}
+              <div className="mt-8">
+                <button
+                  onClick={() => {
+                    // Hide intro first, then navigate so Router can render the target
+                    if (onComplete) onComplete();
+                    setTimeout(() => navigate('/clock'), 60);
+                  }}
+                  className="px-8 py-3 rounded-full bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold shadow-lg hover:brightness-105 transition"
+                >
+                  View Schedule
+                </button>
               </div>
             </div>            
           </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Phone, MapPin, Clock, Globe, Facebook, Twitter, Instagram, Linkedin, Users, Calendar, Navigation } from 'lucide-react';
-import Footer from './footer.tsx';
+import { Mail, MapPin, Clock, Globe, Facebook, Twitter, Instagram, Linkedin, Users, Calendar, Navigation } from 'lucide-react';
 
 interface ContactInfo {
   icon: React.ReactNode;

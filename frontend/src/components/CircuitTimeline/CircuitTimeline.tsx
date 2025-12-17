@@ -109,7 +109,7 @@ export const CircuitTimeline = () => {
           </h1>
           <div className="h-0.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
           <p className="text-cyan-500/60 text-sm font-mono tracking-[0.3em] mt-3">
-            {"// SYSTEM.EVENTS.LOAD()"}
+            {'\u002F\u002F SYSTEM.EVENTS.LOAD()'}
           </p>
         </div>
       </div>

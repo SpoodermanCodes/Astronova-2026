@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import ClockNumber from './ClockNumber.tsx';
 import ClockHands from './ClockHands.tsx';
 import GearMechanism from './GearMechanism.tsx';
@@ -10,6 +10,8 @@ import { TimeSlot } from './types.ts';
 const WatchClock: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<1 | 2>(1);
   const [selectedHour, setSelectedHour] = useState<number | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isInitialized = useRef(false);
 
   const currentDaySchedule = useMemo(() => {
     return eventSchedule.find(d => d.day === selectedDay)!;
@@ -23,6 +25,36 @@ const WatchClock: React.FC = () => {
   const hasEventsAtHour = (hour: number): boolean => {
     return currentDaySchedule.timeSlots.some(ts => ts.hour === hour);
   };
+
+  // Initialize on mount - start from hour 1
+  useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      setSelectedHour(1);
+    }
+  }, []);
+
+  // Auto-advance to next hour after 3 seconds
+  useEffect(() => {
+    if (selectedHour !== null) {
+      // Clear any existing timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Set timeout to move to next hour after 3 seconds
+      timeoutRef.current = setTimeout(() => {
+        const nextHour = selectedHour === 12 ? 1 : selectedHour + 1;
+        setSelectedHour(nextHour);
+      }, 3000);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [selectedHour]);
 
   // Clock radius calculation for responsive design
   const clockRadius = 130; // Base radius for number positioning
@@ -76,6 +108,9 @@ const WatchClock: React.FC = () => {
       <DaySelector selectedDay={selectedDay} onDayChange={(day) => {
         setSelectedDay(day);
         setSelectedHour(null);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
       }} />
 
       {/* Main Content */}
@@ -154,7 +189,7 @@ const WatchClock: React.FC = () => {
           </div>
           
           {/* Clock Hands */}
-          <ClockHands selectedHour={selectedHour || 12} />
+          <ClockHands selectedHour={selectedHour || 1} />
           
           {/* Watch Crown (side button) */}
           <div
